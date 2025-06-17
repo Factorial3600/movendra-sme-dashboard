@@ -113,18 +113,20 @@ if not filtered_df.empty:
         st.info("No data available for pie chart.")
 
 # --- INSIGHTS ---
-    st.subheader("🧠 Key Insights")
+st.subheader("🧠 Key Insights")
+
+try:
     top_state = top_states.idxmax() if not top_states.empty else "N/A"
     top_count = top_states.max() if not top_states.empty else 0
 
     st.markdown(f"""
     - **Total SMEs Displayed:** `{len(filtered_df):,}`
     - **Top State:** `{top_state.title()}` with `{top_count:,}` SMEs
-    - **States Filtered:** {', '.join(selected_states)}
+    - **States Filtered:** {', '.join(selected_states) if selected_states else "None"}  
     - **Industries Filtered:** {', '.join(selected_industries) if selected_industries else "All"}
     """)
-else:
-    st.info("⚠️ No SMEs match your filters.")
+except Exception as e:
+    st.error("⚠️ Couldn't generate insight summary.")
 
 # --- DOWNLOAD ---
 st.download_button(
@@ -137,6 +139,7 @@ st.download_button(
 # --- FOOTER ---
 st.markdown("---")
 st.markdown(
-    "<center style='color: gray;'>🚀 Built for Bootcamp Final Project | Movendra Logistics • Powered by Streamlit</center>",
+    "<div style='text-align:center; color: gray;'>🚀 Built for Bootcamp Final Project | Movendra Logistics • Powered by Streamlit</div>",
     unsafe_allow_html=True
 )
+
